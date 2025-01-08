@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const fs = require('fs');
-const Razorpay = require("razorpay");
+// const Razorpay = require("razorpay");
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser')
@@ -18,10 +18,10 @@ app.use(bodyParser.json())
 mongoose.connect('mongodb+srv://nandanipatel057:qPrLJ7hONnX9DfYW@cluster0.v2nbfxj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(() => console.log("mongodb connected"))
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// const razorpay = new Razorpay({
+//   key_id: process.env.RAZORPAY_KEY_ID,
+//   key_secret: process.env.RAZORPAY_KEY_SECRET,
+// });
 
 //Contact data
 const ContactSchema = new mongoose.Schema({
@@ -238,29 +238,29 @@ const ContactSchema = new mongoose.Schema({
 
 
 // for payment post
-app.post("/razorpay", async (req, res) => {
-  const { amount } = req.body;
+// app.post("/razorpay", async (req, res) => {
+//   const { amount } = req.body;
 
-  const options = {
-    amount: amount * 100, // Convert amount to smallest currency unit (e.g., paise for INR)
-    currency: 'INR',
-    receipt: "receipt#1",
-    payment_capture: '1'
-  };
+//   const options = {
+//     amount: amount * 100, // Convert amount to smallest currency unit (e.g., paise for INR)
+//     currency: 'INR',
+//     receipt: "receipt#1",
+//     payment_capture: '1'
+//   };
 
-  try {
-    const response = await razorpay.orders.create(options);
-    console.log(response)
-    res.json({
-      success: true,
-      id: response.id,
-      currency: response.currency
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: 'Please try again' });
-  }
-});
+//   try {
+//     const response = await razorpay.orders.create(options);
+//     console.log(response)
+//     res.json({
+//       success: true,
+//       id: response.id,
+//       currency: response.currency
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, error: 'Please try again' });
+//   }
+// });
 
 //Api fetch of data.json
 
@@ -315,9 +315,6 @@ app.get('/api/data', (req, res) => {
 app.post('/newlater', async(req, res) =>{
   const {email} = req.body;
   
-
-  
-  
   try {
   
     const existingUserr = await News.findOne({ email });
@@ -351,10 +348,9 @@ app.post('/newlater', async(req, res) =>{
       to: email,
       subject: 'Thank You For Subscribing!',
       html: `
-        <p>Thank you for Subscrbing with VHX View. We are excited to have you on board!</p>
+        <p>Thank you for Subscrbing with Zephyr. We are excited to have you on board!</p>
         <p>Best regards,</p>
-        <p>VHX View Team</p>
-        <img src="https://i.ibb.co/qnVVcMk/digital-camera-photo-1080x675.jpg">
+        <p>Zephyr Team</p>
       `,
     
     
@@ -519,41 +515,41 @@ app.post('/register', async (req, res) => {
 
 //Schedule Email
 
-schedule.scheduleJob('* * 27 12 2 ', async () => {
+// schedule.scheduleJob('* * 27 12 2 ', async () => {
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-  user: process.env.EMAIL_USER ,
-  pass:  process.env.EMAIL_PASS,
-    },
-  });
+//   const transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//   user: process.env.EMAIL_USER ,
+//   pass:  process.env.EMAIL_PASS,
+//     },
+//   });
   
-  const mailOptions = {
-    from:process.env.EMAIL_USER,
-    to: 'nandanip283@gmail.com',
-    subject: 'BIRTHDAY OFFER',
-    html:` <p>Hello </p>
-    <p>Wishing you a very Happy Birthday!!</p> <br>
-    <p> Thanks for connecting with us for so long .
-         ZEPHYR provides you a Birthday Special Offer on your very ospicious day .</p>  <br>
-    <p>Discount on Every Product till midnight 12.</p>
-    <p>Enjoy your day with ZEPHYR</p>
+//   const mailOptions = {
+//     from:process.env.EMAIL_USER,
+//     to: 'nandanip283@gmail.com',
+//     subject: 'BIRTHDAY OFFER',
+//     html:` <p>Hello </p>
+//     <p>Wishing you a very Happy Birthday!!</p> <br>
+//     <p> Thanks for connecting with us for so long .
+//          ZEPHYR provides you a Birthday Special Offer on your very ospicious day .</p>  <br>
+//     <p>Discount on Every Product till midnight 12.</p>
+//     <p>Enjoy your day with ZEPHYR</p>
 
-    <img src="https://img.freepik.com/premium-vector/online-clothing-store-app-web-shopping-customer-choosing-dress_81894-7153.jpg?w=740 " alt="">
-  `,
-  };
+//     <img src="https://img.freepik.com/premium-vector/online-clothing-store-app-web-shopping-customer-choosing-dress_81894-7153.jpg?w=740 " alt="">
+//   `,
+//   };
   
   
     
-  const info = await transporter.sendMail(mailOptions);
-  console.log('Email sent:', info.response);
-  console.log('birthday email sent successfully');
+//   const info = await transporter.sendMail(mailOptions);
+//   console.log('Email sent:', info.response);
+//   console.log('birthday email sent successfully');
     
-  }
+//   }
   
      
-  )
+//   )
 //Schedule Email over
 
 
